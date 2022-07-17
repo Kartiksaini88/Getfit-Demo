@@ -5,17 +5,28 @@ import hero_image from '../../assets/hero_image.png'
 import hero_image_back from '../../assets/hero_image_back.png'
 import Heart from '../../assets/heart.png'
 import calories from '../../assets/calories.png'
-
-
+import NumberCounter from 'number-counter'
+import {motion} from 'framer-motion'
+import { useRef } from 'react'
 
 
 export const Hero = () => {
+    const constraintsRef = useRef(null);
+    const trans = {type:'spring' , duration:3}
+    const mobile = window.innerWidth<=768?true:false
+
     return (
-        <div className='hero'>
+        <div className='hero' id="home">
+            <div className='blur hero-blur'></div>
             <div className="left-h">
                 <Header />
                 <div className="the-best-ad">
-                    <div></div>
+                    <motion.div
+                    initial={{left:mobile? '138px':"238px"}}
+                    whileInView={{left:'8px'}}
+                    transition={{...trans , type:'tween'}}
+                    > 
+                    </motion.div>
                     <span>The best fitness club in the town</span>
                 </div>
                 <div className="hero-text">
@@ -36,17 +47,19 @@ export const Hero = () => {
 
                 <div className="figures">
                     <div>
-                        <span>+140</span>
+                        <span>
+                            <NumberCounter end={150} start={100} delay='4' preFix="+"></NumberCounter>
+                        </span>
                         <span>Experts Couches</span>
                     </div>
 
                     <div>
-                        <span>+978</span>
+                        <span><NumberCounter end={970} start={800} delay='4' preFix="+"></NumberCounter></span>
                         <span>members joined</span>
                     </div>
 
                     <div>
-                        <span>+50</span>
+                        <span><NumberCounter end={50} start={30} delay='4' preFix="+"></NumberCounter></span>
                         <span>fitness programs</span>
                     </div>
 
@@ -59,22 +72,37 @@ export const Hero = () => {
             <div className="right-h">
                 <button className='btn'>Join Now</button>
 
-                <div className="heart-rate">
+                <motion.div
+                ref={constraintsRef}
+                drag dragConstraints={constraintsRef}
+                initial={{right:'-1rem'}}
+                whileInView={{right:'4rem'}}
+                
+                transition={trans}
+                className="heart-rate">
                     <img src={Heart} alt="" />
                     <span>Heart rate</span>
-                    <span>116 bpm</span>
-                </div>
+                    <span><NumberCounter end={116} start={90} delay='4' postFix="bpm"></NumberCounter></span>
+                </motion.div>
                 <img src={hero_image} className="hero-image" alt="" />
-                <img src={hero_image_back} className="hero-image-back" alt="" />
+                <motion.img 
+                initial={{right:'11rem'}}
+                whileInView={{right:'20rem'}}
+                transition={trans}
+                src={hero_image_back} className="hero-image-back" alt="" />
 
-                <div className="calories">
+                <motion.div
+                 initial={{right:'37rem'}}
+                 whileInView={{right:'28rem'}}
+                 transition={trans}
+                className="calories">
                     <img src={calories} alt="" />
                     <div>
                         <span>Calories Burned</span>
-                        <span>220 kcal</span>
+                        <span><NumberCounter end={220} start={180} delay='4' postFix="kcal"></NumberCounter></span>
                     </div>
 
-                </div>
+                </motion.div>
             </div>
         </div>
     )
